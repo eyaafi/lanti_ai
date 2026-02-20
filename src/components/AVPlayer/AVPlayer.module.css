@@ -1,0 +1,282 @@
+.player {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-sm);
+}
+
+.playerHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 10px var(--space-md);
+    background: var(--bg-glass);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.playerType {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.playerTypeLabel {}
+
+.playerTitle {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-left: auto;
+}
+
+/* ---- Steps ---- */
+.stepsContainer {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.stepDisplay {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stepNumber {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.stepLabel {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stepDescription {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.visualArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.visualPlaceholder {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-card);
+    border: 1px solid var(--border-glass);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.visualIcon {
+    font-size: 2rem;
+}
+
+.visualLabel {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 0 4px;
+}
+
+/* ---- Step Dots ---- */
+.stepDots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.stepDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-glass);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+}
+
+.stepDotActive {
+    background: var(--color-primary);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px var(--color-primary);
+}
+
+.stepDotDone {
+    background: var(--color-secondary);
+}
+
+/* ---- Controls ---- */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    justify-content: center;
+}
+
+.controlBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controlBtn:hover:not(:disabled) {
+    border-color: var(--border-active);
+    color: var(--text-primary);
+}
+
+.controlBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.playBtn {
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-glow);
+}
+
+.playBtn:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.playBtnActive {
+    background: var(--bg-glass-strong) !important;
+    box-shadow: none !important;
+    color: var(--color-primary-light) !important;
+}
+
+.playBtn:disabled {
+    cursor: not-allowed;
+}
+
+/* ---- Media Placeholder ---- */
+.mediaPlaceholder {
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: center;
+}
+
+.mediaIcon {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.mediaDescription {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    max-width: 300px;
+}
+
+.mediaActions {}
+
+.generateBtn {
+    font-size: 0.85rem !important;
+    padding: 8px 20px !important;
+}
+
+/* ---- Narration ---- */
+.narrationSection {
+    border-top: 1px solid var(--border-subtle);
+}
+
+.narrationToggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: 10px var(--space-md);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.narrationToggle:hover {
+    color: var(--text-primary);
+}
+
+.toggleChevron {
+    margin-left: auto;
+    font-size: 0.6rem;
+}
+
+.narrationContent {
+    padding: 0 var(--space-md) var(--space-md);
+}
+
+.narrationText {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    line-height: 1.6;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+}
+
+/* ---- Cultural Badge ---- */
+.culturalBadge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 8px var(--space-md);
+    background: rgba(0, 212, 170, 0.05);
+    border-top: 1px solid rgba(0, 212, 170, 0.15);
+}
+
+.culturalText {
+    font-size: 0.7rem;
+    color: var(--color-secondary);
+}

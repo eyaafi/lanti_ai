@@ -1,0 +1,389 @@
+.container {
+    padding: var(--space-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.tabs {
+    display: flex;
+    gap: var(--space-xs);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-glass);
+}
+
+.tab {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tabActive {
+    background: var(--primary);
+    color: white;
+}
+
+/* Form Styles */
+.createPanel {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.createForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.formLabel {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 4px;
+}
+
+.formInput,
+.formTextarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Mode Selector */
+.modeSelector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-sm);
+}
+
+.modeOption {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modeOptionActive {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: var(--color-secondary);
+}
+
+.modeOptionIcon {
+    font-size: 1.5rem;
+}
+
+.modeOptionLabel {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.modeOptionDesc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+/* Lessons Grid */
+.lessonsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+}
+
+.lessonCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    transition: transform 0.3s ease;
+}
+
+.lessonCard:hover {
+    transform: translateY(-5px);
+}
+
+.lessonHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.lessonTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.lessonMeta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.lessonDuration {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.lessonSectionTitle {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.lessonList {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.avAidTags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.avAidTag {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.lessonFooter {
+    margin-top: auto;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.safetyNote {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+/* Performance Analytics */
+.analyticsPanel {
+    padding: var(--space-md) 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.statCard {
+    padding: var(--space-xl);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.statIcon {
+    font-size: 2.5rem;
+}
+
+.statValue {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.analyticsNote {
+    padding: var(--space-lg);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.analyticsNote h4 {
+    margin-bottom: var(--space-sm);
+    color: var(--primary);
+}
+
+.analyticsNote p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Submissions */
+.submissionsPanel {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+}
+
+.submissionList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.submissionCard {
+    padding: var(--space-lg);
+}
+
+.submissionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.submissionText {
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.03);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-sm);
+}
+
+.submissionMeta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.emptyState {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-subtle);
+}
+
+.blackboardPanel {
+    height: 600px;
+    margin-top: var(--space-lg);
+}
+
+.feedbackForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.feedbackInput {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    padding: 8px;
+    outline: none;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.feedbackInput:focus {
+    border-color: var(--border-active);
+}
+
+.feedbackGiven {
+    margin-top: var(--space-sm);
+    padding: var(--space-sm);
+    background: rgba(0, 212, 170, 0.05);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-secondary);
+}
+
+.feedbackGiven strong {
+    font-size: 0.75rem;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.feedbackGiven p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}

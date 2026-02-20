@@ -1,0 +1,336 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    flex-shrink: 0;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 2px 0 0;
+}
+
+.safetyIndicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+    font-weight: 500;
+}
+
+.safetyDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    box-shadow: 0 0 8px var(--color-secondary);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ---- Layout ---- */
+.layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ---- Tool Selector ---- */
+.toolSelector {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    overflow-y: auto;
+}
+
+.toolSelectorTitle {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-xs);
+}
+
+.toolBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    width: 100%;
+}
+
+.toolBtn:hover {
+    background: var(--bg-glass);
+    border-color: var(--border-glass);
+}
+
+.toolBtnActive {
+    background: var(--bg-glass-strong) !important;
+}
+
+.toolIcon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.toolLabel {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.toolDesc {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* ---- Safety Rules ---- */
+.safetyRules {
+    margin-top: auto;
+    padding: var(--space-md);
+    background: rgba(255, 107, 107, 0.05);
+    border: 1px solid rgba(255, 107, 107, 0.15);
+    border-radius: var(--radius-md);
+}
+
+.safetyRulesTitle {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+}
+
+.safetyRulesList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.safetyRulesList li {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    padding-left: 12px;
+    position: relative;
+}
+
+.safetyRulesList li::before {
+    content: '×';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+/* ---- Canvas ---- */
+.canvas {
+    overflow-y: auto;
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+/* ---- New Project Card ---- */
+.newProjectCard {
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.newProjectHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 1.5rem;
+}
+
+.newProjectTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.formLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.formInput,
+.formTextarea {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    transition: border-color var(--transition-fast);
+    outline: none;
+    width: 100%;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+    border-color: var(--border-active);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+    color: var(--text-muted);
+}
+
+.formTextarea {
+    resize: vertical;
+}
+
+.formTextareaBlocked {
+    border-color: rgba(255, 107, 107, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1) !important;
+}
+
+.safetyWarning {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: 10px 14px;
+    background: rgba(255, 107, 107, 0.08);
+    border: 1px solid rgba(255, 107, 107, 0.25);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    animation: fadeIn 0.2s ease;
+}
+
+.safetyOk {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+    animation: fadeIn 0.2s ease;
+}
+
+/* ---- Tool Options ---- */
+.toolOptions {}
+
+.optionGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.optionSelect {
+    margin-left: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+/* ---- Projects Section ---- */
+.projectsSection {}
+
+.projectsSectionTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 var(--space-md);
+}
+
+.projectsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.projectCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+}
+
+.projectThumbnail {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.projectInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.projectTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.projectDesc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.projectMeta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: 4px;
+}
+
+.projectType {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}

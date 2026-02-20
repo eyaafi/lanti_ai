@@ -1,0 +1,352 @@
+.container {
+    padding: var(--space-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.scheduleBtn {
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.scheduleBtn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.sectionTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sessionList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.sessionCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.sessionCard:hover {
+    border-color: var(--border-active);
+}
+
+.sessionCardLive {
+    border-color: #FF6B6B !important;
+    background: rgba(255, 107, 107, 0.03);
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+    }
+}
+
+.sessionTime {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+    padding: 8px 12px;
+    background: rgba(108, 99, 255, 0.08);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.sessionDay {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.sessionHour {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.sessionInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.sessionTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.sessionMeta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.metaBadge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.badgeGrade {
+    background: rgba(0, 212, 170, 0.1);
+    color: #00D4AA;
+}
+
+.badgeSubject {
+    background: rgba(108, 99, 255, 0.1);
+    color: var(--color-primary);
+}
+
+.badgeTeacher {
+    background: rgba(255, 179, 71, 0.1);
+    color: #FFB347;
+}
+
+.badgeDuration {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.sessionActions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.liveTag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(255, 107, 107, 0.15);
+    color: #FF6B6B;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.liveDot {
+    width: 8px;
+    height: 8px;
+    background: #FF6B6B;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 4px #FF6B6B);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.joinBtn {
+    padding: 8px 16px;
+    background: #00D4AA;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.joinBtn:hover {
+    filter: brightness(1.1);
+}
+
+.completedBadge {
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.deleteBtn {
+    padding: 4px 8px;
+    background: rgba(255, 107, 107, 0.1);
+    color: #FF6B6B;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+    background: rgba(255, 107, 107, 0.25);
+}
+
+.emptyState {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px dashed var(--border-subtle);
+}
+
+.emptyIcon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: var(--space-xl);
+    width: 450px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: var(--space-md);
+}
+
+.formLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.formInput,
+.formSelect {
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.formInput:focus,
+.formSelect:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.formActions {
+    display: flex;
+    gap: 8px;
+    margin-top: var(--space-lg);
+}
+
+.formSubmit {
+    flex: 1;
+    padding: 10px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.formSubmit:hover {
+    filter: brightness(1.1);
+}
+
+.formCancel {
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.formCancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
