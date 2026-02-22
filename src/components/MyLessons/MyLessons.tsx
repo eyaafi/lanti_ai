@@ -5,7 +5,7 @@ import { useLessons } from '@/lib/lessons/context';
 import { useAuth } from '@/lib/auth/context';
 import styles from './MyLessons.module.css';
 
-export default function MyLessons() {
+export default function MyLessons({ onStartLearning }: { onStartLearning?: (lessonId: string) => void }) {
     const { user } = useAuth();
     const { getAssignmentsForStudent, submitResponse, submissions } = useLessons();
     const [activeTab, setActiveTab] = useState<'pending' | 'completed'>('pending');
@@ -106,6 +106,15 @@ export default function MyLessons() {
                                         >
                                             Respond to Lesson
                                         </button>
+                                        {onStartLearning && (
+                                            <button
+                                                className="btn"
+                                                style={{ background: 'rgba(108,99,255,0.1)', color: 'var(--color-primary)', border: '1px solid rgba(108,99,255,0.2)' }}
+                                                onClick={() => onStartLearning(assignment.lessonId)}
+                                            >
+                                                📖 Start Learning
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             );

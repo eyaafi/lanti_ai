@@ -144,6 +144,22 @@ export default function TeacherPanel() {
                 {/* Lessons Tab */}
                 {activeTab === 'lessons' && (
                     <div className={styles.lessonsGrid}>
+                        {lessons.length === 0 && (
+                            <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>📚</div>
+                                <h3 style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>No lessons yet</h3>
+                                <p style={{ fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto 20px', lineHeight: '1.5' }}>
+                                    Create your first AI-powered lesson using the <strong>✨ Create</strong> tab.
+                                    Your lessons will appear here for assigning and going live.
+                                </p>
+                                <button
+                                    style={{ padding: '10px 24px', background: 'linear-gradient(135deg, #6C63FF, #00D4AA)', border: 'none', borderRadius: '8px', color: 'white', fontWeight: '700', fontSize: '0.9rem', cursor: 'pointer' }}
+                                    onClick={() => setActiveTab('create')}
+                                >
+                                    ✨ Create Your First Lesson
+                                </button>
+                            </div>
+                        )}
                         {lessons.map(lesson => (
                             <div key={lesson.id} className={`glass-card ${styles.lessonCard}`}>
                                 <div className={styles.lessonHeader}>

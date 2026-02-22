@@ -1,0 +1,65 @@
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-full);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    overflow: hidden;
+}
+
+.toggle:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-active);
+    box-shadow: var(--shadow-glow);
+}
+
+.iconContainer {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform var(--transition-slow), opacity var(--transition-slow);
+}
+
+.active {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.inactive {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+.label {
+    text-transform: capitalize;
+}
+
+/* Specific adjustment for dashboard sidebar usage */
+:global(.sidebar) .toggle {
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--space-md);
+}
+
+@media (max-width: 768px) {
+    .label {
+        display: none;
+    }
+}

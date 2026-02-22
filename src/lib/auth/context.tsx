@@ -15,8 +15,9 @@ export interface User {
     id: string;
     organizationId: string;
     name: string;
-    email: string; // Changed back to required string for now to avoid breaking other components, but will be auto-filled
-    username?: string; // Alternative login for students
+    email: string;
+    username?: string;
+    password?: string; // Hashed in production, plain for demo
     role: UserRole;
 
     // Role specific fields
@@ -40,12 +41,12 @@ interface AuthContextType {
     isLoading: boolean;
 
     // Auth Actions
-    login: (email: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
     logout: () => void;
-    signupSolo: (name: string, email: string) => Promise<void>;
+    signupSolo: (name: string, email: string, password: string) => Promise<void>;
 
     // Admin Actions (Mock)
-    createOrganization: (orgName: string, adminName: string, adminEmail: string) => Promise<void>;
+    createOrganization: (orgName: string, adminName: string, adminEmail: string, password: string) => Promise<void>;
     createUser: (currUser: Omit<User, 'id'>) => Promise<User>;
     updateUser: (userId: string, updates: Partial<User>) => void;
     deleteUser: (userId: string) => void;
@@ -97,74 +98,83 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
     }, []);
 
-    const login = async (emailOrId: string) => {
+    const login = async (emailOrId: string, password: string): Promise<{ success: boolean; error?: string }> => {
         setIsLoading(true);
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Support login by email, username, or user ID
         const storedUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
         const identifier = emailOrId.trim().toLowerCase();
-        const foundUser = storedUsers.find((u: User) =>
-            u.email?.toLowerCase() === identifier ||
-            u.username?.toLowerCase() === identifier ||
-            u.id?.toLowerCase() === identifier
-        );
 
-        if (foundUser) {
-            setUser(foundUser);
-            localStorage.setItem('lantiai_user', JSON.stringify(foundUser));
-
-            // Load the correct organization for this user
-            const storedOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-            const foundOrg = storedOrgs.find((o: Organization) => o.id === foundUser.organizationId);
-
-            if (foundOrg) {
-                setOrganization(foundOrg);
-                localStorage.setItem('lantiai_org', JSON.stringify(foundOrg));
+        // Check reserved demo identifiers FIRST
+        if (['admin@school.edu', 'admin@school.org', 'admin@school.com', 'admin'].includes(identifier)) {
+            if (password !== 'admin123') {
+                setIsLoading(false);
+                return { success: false, error: 'Incorrect password.' };
             }
-        } else if (emailOrId === 'admin@school.edu') {
-            // BACKDOOR for testing/verification
-            const adminOrg: Organization = {
-                id: 'school-org',
-                name: 'Lanti Academy',
-                plan: 'enterprise'
-            };
+            const adminOrg: Organization = { id: 'school-org', name: 'Lanti Academy', plan: 'enterprise' };
             const adminUser: User = {
-                id: 'admin-1',
-                organizationId: adminOrg.id,
-                name: 'School Admin',
-                email: 'admin@school.edu',
-                role: 'admin'
+                id: 'admin-1', organizationId: adminOrg.id, name: 'School Admin',
+                email: 'admin@school.edu', password: 'admin123', role: 'admin'
             };
-            setUser(adminUser);
-            setOrganization(adminOrg);
+            setUser(adminUser); setOrganization(adminOrg);
             localStorage.setItem('lantiai_user', JSON.stringify(adminUser));
             localStorage.setItem('lantiai_org', JSON.stringify(adminOrg));
 
-            // Ensure they are also in the DB for other functions
             const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-            if (!currentUsers.find((u: User) => u.email === emailOrId)) {
-                currentUsers.push(adminUser);
-                localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-            }
+            const existingIdx = currentUsers.findIndex((u: User) => u.email === adminUser.email);
+            if (existingIdx >= 0) { currentUsers[existingIdx] = adminUser; } else { currentUsers.push(adminUser); }
+            localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
             const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-            if (!currentOrgs.find((o: Organization) => o.id === adminOrg.id)) {
-                currentOrgs.push(adminOrg);
-                localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs));
+            if (!currentOrgs.find((o: Organization) => o.id === adminOrg.id)) { currentOrgs.push(adminOrg); localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs)); }
+
+        } else if (['teacher@school.edu', 'teacher@school.org', 'teacher@school.com', 'teacher'].includes(identifier)) {
+            if (password !== 'teacher123') {
+                setIsLoading(false);
+                return { success: false, error: 'Incorrect password.' };
             }
-        } else {
-            // Fallback for demo scenario
-            const mockUser: User = {
-                id: Math.random().toString(36).substr(2, 9),
-                organizationId: 'demo-org',
-                name: emailOrId.split('@')[0] || emailOrId,
-                email: emailOrId.includes('@') ? emailOrId : `${emailOrId}@lantiai.local`,
-                role: 'student'
+            const teacherOrg: Organization = { id: 'school-org', name: 'Lanti Academy', plan: 'enterprise' };
+            const teacherUser: User = {
+                id: 'teacher-1', organizationId: teacherOrg.id, name: 'Demo Teacher',
+                email: 'teacher@school.edu', password: 'teacher123', role: 'teacher', subjects: ['Mathematics', 'Science']
             };
-            setUser(mockUser);
-            localStorage.setItem('lantiai_user', JSON.stringify(mockUser));
+            setUser(teacherUser); setOrganization(teacherOrg);
+            localStorage.setItem('lantiai_user', JSON.stringify(teacherUser));
+            localStorage.setItem('lantiai_org', JSON.stringify(teacherOrg));
+
+            const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
+            const existingIdx = currentUsers.findIndex((u: User) => u.email === teacherUser.email);
+            if (existingIdx >= 0) { currentUsers[existingIdx] = teacherUser; } else { currentUsers.push(teacherUser); }
+            localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
+            const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
+            if (!currentOrgs.find((o: Organization) => o.id === teacherOrg.id)) { currentOrgs.push(teacherOrg); localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs)); }
+
+        } else {
+            // Check DB for registered users
+            const foundUser = storedUsers.find((u: User) =>
+                u.email?.toLowerCase() === identifier ||
+                u.username?.toLowerCase() === identifier ||
+                u.id?.toLowerCase() === identifier
+            );
+
+            if (foundUser) {
+                // Validate password (students created by admin may have a password set)
+                if (foundUser.password && foundUser.password !== password) {
+                    setIsLoading(false);
+                    return { success: false, error: 'Incorrect password.' };
+                }
+                setUser(foundUser);
+                localStorage.setItem('lantiai_user', JSON.stringify(foundUser));
+
+                const storedOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
+                const foundOrg = storedOrgs.find((o: Organization) => o.id === foundUser.organizationId);
+                if (foundOrg) { setOrganization(foundOrg); localStorage.setItem('lantiai_org', JSON.stringify(foundOrg)); }
+            } else {
+                setIsLoading(false);
+                return { success: false, error: 'No account found with that email or ID.' };
+            }
         }
         setIsLoading(false);
+        return { success: true };
     };
 
     const logout = () => {
@@ -172,7 +182,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('lantiai_user');
     };
 
-    const createOrganization = async (orgName: string, adminName: string, adminEmail: string) => {
+    const createOrganization = async (orgName: string, adminName: string, adminEmail: string, password: string) => {
         setIsLoading(true);
         await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -187,6 +197,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             organizationId: newOrg.id,
             name: adminName,
             email: adminEmail,
+            password: password,
             role: 'admin'
         };
 
@@ -208,7 +219,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
     };
 
-    const signupSolo = async (name: string, email: string) => {
+    const signupSolo = async (name: string, email: string, password: string) => {
         setIsLoading(true);
         await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -223,6 +234,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             organizationId: newOrg.id,
             name: name,
             email: email,
+            password: password,
             role: 'teacher'
         };
 

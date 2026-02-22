@@ -30,7 +30,7 @@
 }
 
 .statCard {
-    background: var(--bg-surface-elevated);
+    background: var(--bg-card);
     padding: 24px;
     border-radius: 16px;
     border: 1px solid var(--border-subtle);
@@ -129,7 +129,7 @@
 
 .divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--border-subtle);
     margin: 1rem 0;
 }
 
@@ -151,7 +151,8 @@
 
 .promoteBtn {
     padding: 4px 10px;
-    background: rgba(0, 212, 170, 0.1);
+    background: var(--bg-glass-green);
+    /* I should define this or use common tint */
     color: #00D4AA;
     border: 1px solid rgba(0, 212, 170, 0.3);
     border-radius: 6px;
@@ -167,7 +168,7 @@
 
 .deleteBtn {
     padding: 4px 8px;
-    background: rgba(255, 107, 107, 0.1);
+    background: var(--bg-glass-red);
     color: #FF6B6B;
     border: 1px solid rgba(255, 107, 107, 0.3);
     border-radius: 6px;
@@ -178,4 +179,23 @@
 
 .deleteBtn:hover {
     background: rgba(255, 107, 107, 0.25);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .statsGrid {
+        gap: 12px;
+    }
+
+    .usersGrid {
+        grid-template-columns: 1fr;
+    }
 }

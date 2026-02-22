@@ -12,8 +12,8 @@
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: var(--space-xs);
-    background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -63,7 +63,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: var(--space-2xl);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-card);
     border-radius: var(--radius-lg);
     border: 1px dashed var(--border-subtle);
 }
@@ -131,7 +131,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -156,7 +156,7 @@
 }
 
 .objectives {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-card);
     padding: var(--space-md);
     border-radius: var(--radius-md);
 }
@@ -181,7 +181,7 @@
 
 .textarea {
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     padding: var(--space-md);
@@ -192,8 +192,8 @@
 
 .textarea:focus {
     outline: none;
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--color-primary);
+    background: var(--bg-card-hover);
 }
 
 .modalFooter {
@@ -203,7 +203,7 @@
 }
 
 .submissionText {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-card);
     padding: var(--space-md);
     border-radius: var(--radius-md);
     font-style: italic;

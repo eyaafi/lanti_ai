@@ -63,7 +63,7 @@
     align-items: center;
     gap: var(--space-lg);
     padding: var(--space-lg);
-    background: var(--bg-surface-elevated);
+    background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
     transition: all 0.2s;
@@ -75,7 +75,7 @@
 
 .sessionCardLive {
     border-color: #FF6B6B !important;
-    background: rgba(255, 107, 107, 0.03);
+    background: var(--bg-glass-red);
     animation: livePulse 2s ease-in-out infinite;
 }
 
@@ -97,7 +97,7 @@
     align-items: center;
     min-width: 70px;
     padding: 8px 12px;
-    background: rgba(108, 99, 255, 0.08);
+    background: var(--bg-glass);
     border-radius: 8px;
     flex-shrink: 0;
 }
@@ -142,12 +142,12 @@
 }
 
 .badgeGrade {
-    background: rgba(0, 212, 170, 0.1);
-    color: #00D4AA;
+    background: var(--bg-glass-green);
+    color: var(--color-secondary);
 }
 
 .badgeSubject {
-    background: rgba(108, 99, 255, 0.1);
+    background: var(--bg-glass);
     color: var(--color-primary);
 }
 
@@ -172,7 +172,7 @@
     align-items: center;
     gap: 6px;
     padding: 4px 12px;
-    background: rgba(255, 107, 107, 0.15);
+    background: var(--bg-glass-red);
     color: #FF6B6B;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -226,7 +226,7 @@
 
 .deleteBtn {
     padding: 4px 8px;
-    background: rgba(255, 107, 107, 0.1);
+    background: var(--bg-glass-red);
     color: #FF6B6B;
     border: 1px solid rgba(255, 107, 107, 0.3);
     border-radius: 6px;
@@ -243,7 +243,7 @@
     text-align: center;
     padding: var(--space-2xl);
     color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-card);
     border-radius: 12px;
     border: 1px dashed var(--border-subtle);
 }
@@ -260,7 +260,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -301,7 +301,7 @@
 .formInput,
 .formSelect {
     padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
     border: 1px solid var(--border-glass);
     border-radius: 8px;
     color: var(--text-primary);

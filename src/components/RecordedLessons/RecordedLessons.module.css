@@ -1,0 +1,294 @@
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin-top: 4px;
+}
+
+.filterSelect {
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: inherit;
+    font-size: 0.85rem;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(108, 99, 255, 0.4);
+}
+
+.cardPreview {
+    height: 140px;
+    background: linear-gradient(135deg, #1A1A2E, #16213E);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.playOverlay {
+    font-size: 2.5rem;
+    opacity: 0.3;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.card:hover .playOverlay {
+    opacity: 0.8;
+    transform: scale(1.2);
+}
+
+.cardBody {
+    padding: 16px;
+}
+
+.cardTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.cardMeta {
+    display: flex;
+    gap: 10px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 10px;
+}
+
+.cardFooter {
+    display: flex;
+    gap: 10px;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Player */
+.backBtn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    margin-bottom: 16px;
+}
+
+.playerHeader {
+    margin-bottom: 16px;
+}
+
+.playerTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.playerMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.metaBadge {
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--bg-glass);
+    color: var(--color-primary);
+}
+
+.playerControls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+}
+
+.playBtn,
+.pauseBtn,
+.skipBtn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.playBtn {
+    background: var(--color-primary);
+    color: white;
+}
+
+.pauseBtn {
+    background: var(--bg-glass-red);
+    color: #FF6B6B;
+}
+
+.skipBtn {
+    background: var(--bg-card);
+    color: inherit;
+}
+
+.progressBar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-card);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 3px;
+    transition: width 0.15s;
+}
+
+.progressText {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    min-width: 36px;
+    text-align: right;
+}
+
+/* Canvas */
+.canvasContainer {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: var(--bg-base);
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+}
+
+.canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.canvasPlaceholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1rem;
+}
+
+/* Prompts */
+.promptsSection {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+}
+
+.promptsTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.promptsList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.promptItem {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--bg-glass);
+}
+
+.promptTime {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    white-space: nowrap;
+    margin-top: 2px;
+}
+
+.promptText {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Empty */
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    opacity: 0.6;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.emptyHint {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .canvasContainer {
+        height: 250px;
+    }
+
+    .playerControls {
+        flex-wrap: wrap;
+    }
+}

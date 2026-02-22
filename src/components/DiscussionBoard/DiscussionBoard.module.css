@@ -1,0 +1,408 @@
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin-top: 4px;
+}
+
+.headerActions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filterSelect {
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: inherit;
+    font-size: 0.85rem;
+}
+
+.newPostBtn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* Post List */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.postCard {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.postCard:hover {
+    border-color: rgba(108, 99, 255, 0.3);
+    transform: translateX(2px);
+}
+
+.pinned {
+    border-color: rgba(255, 193, 7, 0.3);
+    background: rgba(255, 193, 7, 0.03);
+}
+
+.postLeft {
+    min-width: 60px;
+    text-align: center;
+}
+
+.replyCount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.replyNum {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.replyLabel {
+    font-size: 0.7rem;
+    opacity: 0.5;
+}
+
+.postRight {
+    flex: 1;
+}
+
+.postTitle {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.pinIcon {
+    margin-right: 6px;
+}
+
+.postMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.78rem;
+    opacity: 0.7;
+    align-items: center;
+}
+
+.postActions {
+    display: flex;
+    gap: 4px;
+}
+
+.iconBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.iconBtn:hover {
+    background: var(--bg-card-hover);
+}
+
+/* Role Badges */
+.badgeTeacher {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(76, 175, 80, 0.15);
+    color: #66BB6A;
+    font-size: 0.75rem;
+}
+
+.badgeAdmin {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255, 193, 7, 0.15);
+    color: #FFD54F;
+    font-size: 0.75rem;
+}
+
+.badgeStudent {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(108, 99, 255, 0.15);
+    color: #9C94FF;
+    font-size: 0.75rem;
+}
+
+.subjectTag {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(0, 188, 212, 0.1);
+    color: #4DD0E1;
+}
+
+.authorName {
+    font-weight: 500;
+}
+
+.timestamp {
+    opacity: 0.5;
+}
+
+/* Thread Detail */
+.backBtn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    margin-bottom: 16px;
+}
+
+.threadDetail {
+    padding-bottom: var(--space-xl);
+}
+
+.threadHeader {
+    margin-bottom: 16px;
+}
+
+.threadTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.threadMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.threadContent {
+    padding: 20px;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+}
+
+/* Replies */
+.repliesSection {
+    margin-top: 24px;
+}
+
+.repliesTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+}
+
+.noReplies {
+    opacity: 0.4;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.repliesList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.replyCard {
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+}
+
+.replyMeta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+}
+
+.replyContent {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.replyForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.replyInput {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.replySubmit {
+    align-self: flex-end;
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: none;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.replySubmit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 28px;
+    width: 90%;
+    max-width: 560px;
+}
+
+.modal h3 {
+    margin: 0 0 20px;
+    font-size: 1.2rem;
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    opacity: 0.7;
+}
+
+.formInput {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: inherit;
+    font-size: 0.9rem;
+}
+
+.formTextarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    color: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.formActions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.submitBtn {
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: none;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancelBtn {
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Empty */
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    opacity: 0.6;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.emptyHint {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-top: 4px;
+}

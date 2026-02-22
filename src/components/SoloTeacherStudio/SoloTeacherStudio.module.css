@@ -1,0 +1,540 @@
+.container {
+    padding: 32px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* ---- Header ---- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.headerStats {
+    display: flex;
+    gap: 16px;
+}
+
+.statCard {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.statValue {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.statLabel {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* ---- Tabs ---- */
+.tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 32px;
+}
+
+.tab {
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tab:hover {
+    color: var(--text-primary);
+}
+
+.tabActive {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* ---- Content ---- */
+.content {
+    min-height: 400px;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.sectionHeader h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.sectionTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.addBtn {
+    padding: 8px 18px;
+    border: 1px solid var(--color-primary);
+    background: rgba(108, 99, 255, 0.1);
+    color: var(--color-primary);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.addBtn:hover {
+    background: rgba(108, 99, 255, 0.2);
+}
+
+/* ---- Form ---- */
+.form {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.formGroup label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    border-color: var(--color-primary);
+}
+
+.formGroup textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.submitBtn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #6C63FF, #00D4AA);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.submitBtn:hover {
+    opacity: 0.9;
+}
+
+/* ---- Empty State ---- */
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.emptyState h3 {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.emptyState p {
+    font-size: 0.9rem;
+}
+
+/* ---- Student Grid ---- */
+.studentGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.studentCard {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    padding: 16px 20px;
+    transition: border-color 0.2s;
+}
+
+.studentCard:hover {
+    border-color: var(--color-primary);
+}
+
+.studentAvatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6C63FF, #00D4AA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.studentInfo {
+    flex: 1;
+}
+
+.studentInfo h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.studentMeta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+    padding: 6px;
+}
+
+.deleteBtn:hover {
+    opacity: 1;
+}
+
+/* ---- Tutorial List ---- */
+.tutorialList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tutorialCard {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.status_completed {
+    border-left: 3px solid #00D4AA;
+}
+
+.status_cancelled {
+    border-left: 3px solid #FF6B6B;
+    opacity: 0.6;
+}
+
+.status_scheduled {
+    border-left: 3px solid var(--color-primary);
+}
+
+.tutorialMain {
+    flex: 1;
+}
+
+.tutorialHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.tutorialHeader h4 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.statusBadge {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge_scheduled {
+    background: rgba(108, 99, 255, 0.15);
+    color: var(--color-primary);
+}
+
+.badge_completed {
+    background: rgba(0, 212, 170, 0.15);
+    color: #00D4AA;
+}
+
+.badge_cancelled {
+    background: rgba(255, 107, 107, 0.15);
+    color: #FF6B6B;
+}
+
+.tutorialMeta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.tutorialDesc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.tutorialActions {
+    display: flex;
+    gap: 8px;
+}
+
+.completeBtn,
+.cancelBtn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+}
+
+.completeBtn {
+    background: rgba(0, 212, 170, 0.15);
+    color: #00D4AA;
+}
+
+.cancelBtn {
+    background: rgba(255, 107, 107, 0.1);
+    color: #FF6B6B;
+}
+
+.completeBtn:hover,
+.cancelBtn:hover {
+    opacity: 0.8;
+}
+
+/* ---- Progress Grid ---- */
+.progressGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.progressCard {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.progressHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.progressHeader h4 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.progressHeader p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.progressBar {
+    height: 8px;
+    background: var(--bg-elevated);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #6C63FF, #00D4AA);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+    min-width: 4px;
+}
+
+.progressStats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* ---- Settings ---- */
+.settingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.settingsCard {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.settingsCard h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--color-primary);
+}
+
+.settingsCard .formGroup {
+    margin-bottom: 12px;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.88rem;
+}
+
+.infoRow:last-child {
+    border-bottom: none;
+}
+
+.infoRow span {
+    color: var(--text-secondary);
+}
+
+.infoRow code {
+    background: var(--bg-elevated);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .studentGrid,
+    .progressGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        overflow-x: auto;
+    }
+
+    .tutorialCard {
+        flex-direction: column;
+    }
+
+    .tutorialActions {
+        align-self: flex-end;
+    }
+}

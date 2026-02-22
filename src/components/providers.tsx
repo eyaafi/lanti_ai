@@ -39,6 +39,8 @@ const LocaleContext = createContext<LocaleContextType | null>(null);
 import { AuthProvider } from '@/lib/auth/context';
 import { LessonProvider } from '@/lib/lessons/context';
 import { LiveSessionProvider } from '@/lib/live/context';
+import { DiscussionProvider } from '@/lib/discussions/context';
+import { NotificationProvider } from '@/lib/notifications/context';
 
 // ---- Combined Provider ----
 export function LantiaiProviders({ children }: { children: ReactNode }) {
@@ -94,7 +96,11 @@ export function LantiaiProviders({ children }: { children: ReactNode }) {
                     <LocaleContext.Provider value={{ locale, setLocale, direction }}>
                         <LessonProvider>
                             <LiveSessionProvider>
-                                {children}
+                                <DiscussionProvider>
+                                    <NotificationProvider>
+                                        {children}
+                                    </NotificationProvider>
+                                </DiscussionProvider>
                             </LiveSessionProvider>
                         </LessonProvider>
                     </LocaleContext.Provider>

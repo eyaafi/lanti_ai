@@ -29,7 +29,7 @@ function MainContent() {
   }
 
   return isAuthenticated ? (
-    <div className="fade-in" style={{ height: '100vh' }}>
+    <div className="fade-in" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Dashboard />
     </div>
   ) : (

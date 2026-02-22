@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth/context';
 import { useLiveSession, type ScheduledSession } from '@/lib/live/context';
 import { useLessons } from '@/lib/lessons/context';
 
-export default function Timetable() {
+export default function Timetable({ onNavigate }: { onNavigate?: (viewId: string) => void }) {
     const { user } = useAuth();
     const { scheduledSessions, savedSessions, scheduleSession, deleteScheduledSession, activeSessionInfo } = useLiveSession();
     const { lessons } = useLessons();
@@ -79,19 +79,30 @@ export default function Timetable() {
 
             {/* Live Now Banner */}
             {activeSessionInfo && (user?.role === 'admin' || user?.role === 'teacher' || activeSessionInfo.targetGrade === user?.gradeLevel) && (
-                <div className={styles.sessionCard} style={{ marginBottom: '24px', borderColor: '#FF6B6B', background: 'rgba(255,107,107,0.05)' }}>
-                    <div className={styles.liveTag}>
-                        <span className={styles.liveDot}></span>
-                        LIVE NOW
-                    </div>
-                    <div className={styles.sessionInfo}>
-                        <div className={styles.sessionTitle}>{activeSessionInfo.lessonTitle}</div>
-                        <div className={styles.sessionMeta}>
-                            <span className={`${styles.metaBadge} ${styles.badgeTeacher}`}>👤 {activeSessionInfo.teacherName}</span>
-                            <span className={`${styles.metaBadge} ${styles.badgeGrade}`}>Grade {activeSessionInfo.targetGrade}</span>
-                            <span className={`${styles.metaBadge} ${styles.badgeSubject}`}>{activeSessionInfo.subject}</span>
+                <div className={styles.sessionCard} style={{ marginBottom: '24px', borderColor: '#FF6B6B', background: 'rgba(255,107,107,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        <div className={styles.liveTag} style={{ marginBottom: '8px' }}>
+                            <span className={styles.liveDot}></span>
+                            LIVE NOW
+                        </div>
+                        <div className={styles.sessionInfo}>
+                            <div className={styles.sessionTitle}>{activeSessionInfo.lessonTitle}</div>
+                            <div className={styles.sessionMeta}>
+                                <span className={`${styles.metaBadge} ${styles.badgeTeacher}`}>👤 {activeSessionInfo.teacherName}</span>
+                                <span className={`${styles.metaBadge} ${styles.badgeGrade}`}>Grade {activeSessionInfo.targetGrade}</span>
+                                <span className={`${styles.metaBadge} ${styles.badgeSubject}`}>{activeSessionInfo.subject}</span>
+                            </div>
                         </div>
                     </div>
+                    {user?.role === 'student' && onNavigate && (
+                        <button
+                            className="btn btn-primary"
+                            style={{ background: '#FF6B6B', border: 'none', padding: '10px 20px', borderRadius: '24px', fontWeight: 'bold' }}
+                            onClick={() => onNavigate('inquiry')}
+                        >
+                            Join Class →
+                        </button>
+                    )}
                 </div>
             )}
 
@@ -126,10 +137,21 @@ export default function Timetable() {
                                         </div>
                                         <div className={styles.sessionActions}>
                                             {isLive && (
-                                                <span className={styles.liveTag}>
-                                                    <span className={styles.liveDot}></span>
-                                                    LIVE
-                                                </span>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+                                                    <span className={styles.liveTag}>
+                                                        <span className={styles.liveDot}></span>
+                                                        LIVE
+                                                    </span>
+                                                    {user?.role === 'student' && onNavigate && (
+                                                        <button
+                                                            className="btn btn-primary"
+                                                            style={{ fontSize: '0.8rem', padding: '6px 16px', background: '#FF6B6B', border: 'none', borderRadius: '20px' }}
+                                                            onClick={() => onNavigate('inquiry')}
+                                                        >
+                                                            Join
+                                                        </button>
+                                                    )}
+                                                </div>
                                             )}
                                             {isTeacherOrAdmin && !isLive && (
                                                 <button className={styles.deleteBtn} onClick={() => deleteScheduledSession(session.id)}>🗑️</button>
