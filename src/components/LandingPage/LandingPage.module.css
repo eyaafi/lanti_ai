@@ -558,12 +558,14 @@
         z-index: 100;
     }
 
-    .loginModal {
+    .modal {
         width: 90%;
         max-width: 460px;
         max-height: 85vh;
         overflow-y: auto;
         padding: 32px 24px;
+        display: flex;
+        flex-direction: column;
     }
 
     .authTabs {
@@ -618,12 +620,16 @@
         min-width: 80px;
     }
 
-    .loginModal {
+    .modal {
         width: 95%;
         padding: 24px 16px;
+        max-height: 90vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
     }
 
-    .loginModal h2 {
+    .modalTitle {
         font-size: 1.3rem;
     }
 
