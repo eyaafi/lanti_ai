@@ -85,14 +85,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             };
             localStorage.setItem('lantiai_db_orgs', JSON.stringify([defaultOrg]));
             localStorage.setItem('lantiai_db_users', JSON.stringify([defaultAdmin]));
-
-            // If nothing is logged in, default to this admin for testing convenience
-            if (!savedUser) {
-                setUser(defaultAdmin);
-                setOrganization(defaultOrg);
-                localStorage.setItem('lantiai_user', JSON.stringify(defaultAdmin));
-                localStorage.setItem('lantiai_org', JSON.stringify(defaultOrg));
-            }
         }
 
         setIsLoading(false);
