@@ -74,7 +74,8 @@
 .navLinks {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 24px;
+    /* Reduced from 40px to fit smaller laptops and wide tablets */
 }
 
 .navLinks a {
@@ -83,6 +84,8 @@
     color: var(--text-secondary);
     text-decoration: none;
     transition: color var(--transition-fast);
+    white-space: nowrap;
+    /* Prevent links from wrapping into multiple lines */
 }
 
 .navLinks a:hover {

@@ -234,6 +234,8 @@ a:hover {
   border: none;
   transition: all var(--transition-base);
   text-decoration: none;
+  white-space: nowrap;
+  /* Prevents text split like 'Ent Platf' */
 }
 
 .btn-primary {
