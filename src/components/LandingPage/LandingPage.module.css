@@ -51,8 +51,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 80px;
+    padding: 24px 5%;
+    /* Fluid padding so it doesn't steal 160px of screen space */
     z-index: 10;
+    gap: 16px;
+    flex-wrap: wrap;
+    /* Gracefully wrap to next line if screen width runs out */
 }
 
 .logo {
@@ -74,8 +78,11 @@
 .navLinks {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    /* Scaled down slightly to fit smaller screens */
     /* Reduced from 40px to fit smaller laptops and wide tablets */
+    flex-wrap: wrap;
+    /* Prevent button cutoff by forcing wrap if needed */
 }
 
 .navLinks a {
