@@ -21,7 +21,7 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 
-export type UserRole = 'admin' | 'teacher' | 'student' | 'parent';
+export type UserRole = 'superadmin' | 'admin' | 'teacher' | 'student' | 'parent';
 
 export interface User {
     id: string; // Firebase Auth UID
@@ -30,6 +30,7 @@ export interface User {
     email: string;
     username?: string;
     role: UserRole;
+    isApproved?: boolean;
 
     // Role specific fields
     subjects?: string[];
@@ -62,6 +63,10 @@ interface AuthContextType {
     updateUser: (userId: string, updates: Partial<User>) => Promise<void>;
     deleteUser: (userId: string) => Promise<void>;
     getOrganizationUsers: (role?: UserRole) => Promise<User[]>;
+
+    // Super Admin Actions
+    getGlobalUsers: (role?: UserRole) => Promise<User[]>;
+    getAllOrganizations: () => Promise<Organization[]>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -245,6 +250,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const getGlobalUsers = async (role?: UserRole): Promise<User[]> => {
+        if (!user || user.role !== 'superadmin') return [];
+
+        try {
+            let q = query(collection(db, 'users'));
+            if (role) {
+                q = query(q, where("role", "==", role));
+            }
+
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => doc.data() as User);
+        } catch (error) {
+            console.error("Failed to fetch global users:", error);
+            return [];
+        }
+    };
+
+    const getAllOrganizations = async (): Promise<Organization[]> => {
+        if (!user || user.role !== 'superadmin') return [];
+
+        try {
+            const snapshot = await getDocs(collection(db, 'organizations'));
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Organization));
+        } catch (error) {
+            console.error("Failed to fetch all organizations:", error);
+            return [];
+        }
+    };
+
     const updateUser = async (userId: string, updates: Partial<User>) => {
         try {
             const userRef = doc(db, 'users', userId);
@@ -276,7 +310,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             createUser,
             updateUser,
             deleteUser,
-            getOrganizationUsers
+            getOrganizationUsers,
+            getGlobalUsers,
+            getAllOrganizations
         }}>
             {children}
         </AuthContext.Provider>
