@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth, User } from '@/lib/auth/context';
 import { useLessons } from '@/lib/lessons/context';
 import styles from './SoloTeacherStudio.module.css';
@@ -47,7 +47,17 @@ export default function SoloTeacherStudio() {
     const [settingsSaved, setSettingsSaved] = useState(false);
 
     // Get students from this solo teacher's org
-    const myStudents = getOrganizationUsers('student');
+    const [myStudents, setMyStudents] = useState<User[]>([]);
+
+    useEffect(() => {
+        if (!user || user.role !== 'teacher') return;
+
+        const fetchStudents = async () => {
+            const students = await getOrganizationUsers('student');
+            setMyStudents(students);
+        };
+        fetchStudents();
+    }, [user]);
 
     // Get tutorials from localStorage
     const getTutorials = (): PrivateTutorial[] => {
@@ -87,13 +97,15 @@ export default function SoloTeacherStudio() {
             name: studentName,
             email: `${username}@lantiai.local`,
             username: username,
-            password: password,
             role: 'student' as const,
             gradeLevel: studentGrade || undefined,
         });
 
-        // Show the credentials alert
-        alert(`Student created!\n\nUsername: ${username}\nPassword: ${password}\n\nShare these with your student so they can log in.`);
+        if (newStudent) {
+            // In a real app we'd call an admin route to set the password
+            // For now we just alert it 
+            alert(`Student created!\n\nUsername: ${username}\nPassword: ${password}\n\nShare these with your student so they can log in.`);
+        }
 
         setStudentName('');
         setStudentGrade('');

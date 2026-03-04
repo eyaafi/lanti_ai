@@ -223,7 +223,7 @@ export default function DiscussionBoard() {
                                 </div>
                                 {isTeacherOrAdmin && (
                                     <div className={styles.postActions} onClick={e => e.stopPropagation()}>
-                                        <button className={styles.iconBtn} onClick={() => togglePin(d.id)} title={d.isPinned ? 'Unpin' : 'Pin'}>
+                                        <button className={styles.iconBtn} onClick={() => togglePin(d.id, d.isPinned || false)} title={d.isPinned ? 'Unpin' : 'Pin'}>
                                             {d.isPinned ? '📌' : '📍'}
                                         </button>
                                         <button className={styles.iconBtn} onClick={() => { if (confirm('Delete this discussion?')) deletePost(d.id); }} title="Delete">

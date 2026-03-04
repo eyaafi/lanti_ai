@@ -1,31 +1,42 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-/**
- * LANTIAI - Auth Context & Data Model
- * 
- * Manages Authentication and Organization Data.
- * Simplified for demo purposes using localStorage persistence.
- */
+import {
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    updateProfile
+} from 'firebase/auth';
+import {
+    doc,
+    getDoc,
+    setDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    deleteDoc,
+    updateDoc
+} from 'firebase/firestore';
+import { auth, db } from '../firebase/config';
 
 export type UserRole = 'admin' | 'teacher' | 'student' | 'parent';
 
 export interface User {
-    id: string;
+    id: string; // Firebase Auth UID
     organizationId: string;
     name: string;
     email: string;
     username?: string;
-    password?: string; // Hashed in production, plain for demo
     role: UserRole;
 
     // Role specific fields
-    subjects?: string[];        // For teachers
-    pedagogicalMode?: string;   // For teachers (default mode)
-    gradeLevel?: string;        // For students
-    parentId?: string;          // For students
-    childrenIds?: string[];     // For parents
+    subjects?: string[];
+    pedagogicalMode?: string;
+    gradeLevel?: string;
+    parentId?: string;
+    childrenIds?: string[];
 }
 
 export interface Organization {
@@ -42,15 +53,15 @@ interface AuthContextType {
 
     // Auth Actions
     login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    logout: () => void;
+    logout: () => Promise<void>;
     signupSolo: (name: string, email: string, password: string) => Promise<void>;
 
-    // Admin Actions (Mock)
+    // Admin Actions
     createOrganization: (orgName: string, adminName: string, adminEmail: string, password: string) => Promise<void>;
-    createUser: (currUser: Omit<User, 'id'>) => Promise<User>;
-    updateUser: (userId: string, updates: Partial<User>) => void;
-    deleteUser: (userId: string) => void;
-    getOrganizationUsers: (role?: UserRole) => User[];
+    createUser: (currUser: Omit<User, 'id'>) => Promise<User | null>;
+    updateUser: (userId: string, updates: Partial<User>) => Promise<void>;
+    deleteUser: (userId: string) => Promise<void>;
+    getOrganizationUsers: (role?: UserRole) => Promise<User[]>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,244 +71,196 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [organization, setOrganization] = useState<Organization | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Persistence check
+    // Listen to Firebase Auth state changes
     useEffect(() => {
-        const savedUser = localStorage.getItem('lantiai_user');
-        const savedOrg = localStorage.getItem('lantiai_org');
+        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+            if (firebaseUser) {
+                try {
+                    // Fetch user profile from Firestore
+                    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data() as User;
+                        setUser(userData);
 
-        if (savedUser) setUser(JSON.parse(savedUser));
-        if (savedOrg) setOrganization(JSON.parse(savedOrg));
+                        // Fetch organization details
+                        if (userData.organizationId) {
+                            const orgDoc = await getDoc(doc(db, 'organizations', userData.organizationId));
+                            if (orgDoc.exists()) {
+                                setOrganization({ id: orgDoc.id, ...orgDoc.data() } as Organization);
+                            }
+                        }
+                    } else {
+                        console.error("User profile document not found in Firestore.");
+                        setUser(null);
+                        setOrganization(null);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            } else {
+                setUser(null);
+                setOrganization(null);
+            }
+            setIsLoading(false);
+        });
 
-        // Seed default admin if DB is empty for demo/testing
-        const storedUsers = localStorage.getItem('lantiai_db_users');
-        if (!storedUsers) {
-            const defaultOrg: Organization = {
-                id: 'school-org',
-                name: 'Lanti Academy',
-                plan: 'enterprise'
-            };
-            const defaultAdmin: User = {
-                id: 'admin-1',
-                organizationId: defaultOrg.id,
-                name: 'School Admin',
-                email: 'admin@school.edu',
-                role: 'admin'
-            };
-            localStorage.setItem('lantiai_db_orgs', JSON.stringify([defaultOrg]));
-            localStorage.setItem('lantiai_db_users', JSON.stringify([defaultAdmin]));
-        }
-
-        setIsLoading(false);
+        return () => unsubscribe();
     }, []);
 
-    const login = async (emailOrId: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
         setIsLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 800));
-
-        const storedUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        const identifier = emailOrId.trim().toLowerCase();
-
-        // Check reserved demo identifiers FIRST
-        if (['admin@school.edu', 'admin@school.org', 'admin@school.com', 'admin'].includes(identifier)) {
-            if (password !== 'admin123') {
-                setIsLoading(false);
-                return { success: false, error: 'Incorrect password.' };
-            }
-            const adminOrg: Organization = { id: 'school-org', name: 'Lanti Academy', plan: 'enterprise' };
-            const adminUser: User = {
-                id: 'admin-1', organizationId: adminOrg.id, name: 'School Admin',
-                email: 'admin@school.edu', password: 'admin123', role: 'admin'
-            };
-            setUser(adminUser); setOrganization(adminOrg);
-            localStorage.setItem('lantiai_user', JSON.stringify(adminUser));
-            localStorage.setItem('lantiai_org', JSON.stringify(adminOrg));
-
-            const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-            const existingIdx = currentUsers.findIndex((u: User) => u.email === adminUser.email);
-            if (existingIdx >= 0) { currentUsers[existingIdx] = adminUser; } else { currentUsers.push(adminUser); }
-            localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-            const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-            if (!currentOrgs.find((o: Organization) => o.id === adminOrg.id)) { currentOrgs.push(adminOrg); localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs)); }
-
-        } else if (['teacher@school.edu', 'teacher@school.org', 'teacher@school.com', 'teacher'].includes(identifier)) {
-            if (password !== 'teacher123') {
-                setIsLoading(false);
-                return { success: false, error: 'Incorrect password.' };
-            }
-            const teacherOrg: Organization = { id: 'school-org', name: 'Lanti Academy', plan: 'enterprise' };
-            const teacherUser: User = {
-                id: 'teacher-1', organizationId: teacherOrg.id, name: 'Demo Teacher',
-                email: 'teacher@school.edu', password: 'teacher123', role: 'teacher', subjects: ['Mathematics', 'Science']
-            };
-            setUser(teacherUser); setOrganization(teacherOrg);
-            localStorage.setItem('lantiai_user', JSON.stringify(teacherUser));
-            localStorage.setItem('lantiai_org', JSON.stringify(teacherOrg));
-
-            const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-            const existingIdx = currentUsers.findIndex((u: User) => u.email === teacherUser.email);
-            if (existingIdx >= 0) { currentUsers[existingIdx] = teacherUser; } else { currentUsers.push(teacherUser); }
-            localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-            const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-            if (!currentOrgs.find((o: Organization) => o.id === teacherOrg.id)) { currentOrgs.push(teacherOrg); localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs)); }
-
-        } else {
-            // Check DB for registered users
-            const foundUser = storedUsers.find((u: User) =>
-                u.email?.toLowerCase() === identifier ||
-                u.username?.toLowerCase() === identifier ||
-                u.id?.toLowerCase() === identifier
-            );
-
-            if (foundUser) {
-                // Validate password (students created by admin may have a password set)
-                if (foundUser.password && foundUser.password !== password) {
-                    setIsLoading(false);
-                    return { success: false, error: 'Incorrect password.' };
-                }
-                setUser(foundUser);
-                localStorage.setItem('lantiai_user', JSON.stringify(foundUser));
-
-                const storedOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-                const foundOrg = storedOrgs.find((o: Organization) => o.id === foundUser.organizationId);
-                if (foundOrg) { setOrganization(foundOrg); localStorage.setItem('lantiai_org', JSON.stringify(foundOrg)); }
-            } else {
-                setIsLoading(false);
-                return { success: false, error: 'No account found with that email or ID.' };
-            }
+        try {
+            // Note: Firebase requires real emails. The previous mock allowed custom usernames/ids.
+            await signInWithEmailAndPassword(auth, email, password);
+            return { success: true };
+        } catch (error: any) {
+            console.error("Login failed:", error);
+            setIsLoading(false);
+            return { success: false, error: error.message || 'Login failed.' };
         }
-        setIsLoading(false);
-        return { success: true };
     };
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('lantiai_user');
+    const logout = async () => {
+        setIsLoading(true);
+        try {
+            await signOut(auth);
+            setUser(null);
+            setOrganization(null);
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+        setIsLoading(false);
     };
 
     const createOrganization = async (orgName: string, adminName: string, adminEmail: string, password: string) => {
         setIsLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+            // Create in Firebase Auth
+            const userCredential = await createUserWithEmailAndPassword(auth, adminEmail, password);
+            const firebaseUser = userCredential.user;
 
-        const newOrg: Organization = {
-            id: Math.random().toString(36).substr(2, 9),
-            name: orgName,
-            plan: 'enterprise'
-        };
+            await updateProfile(firebaseUser, { displayName: adminName });
 
-        const newAdmin: User = {
-            id: Math.random().toString(36).substr(2, 9),
-            organizationId: newOrg.id,
-            name: adminName,
-            email: adminEmail,
-            password: password,
-            role: 'admin'
-        };
+            // Create Organization in Firestore
+            const orgRef = doc(collection(db, 'organizations'));
+            const newOrg: Omit<Organization, 'id'> = {
+                name: orgName,
+                plan: 'enterprise'
+            };
+            await setDoc(orgRef, newOrg);
 
-        setOrganization(newOrg);
-        setUser(newAdmin);
+            // Create User Document in Firestore
+            const newUser: User = {
+                id: firebaseUser.uid,
+                organizationId: orgRef.id,
+                name: adminName,
+                email: adminEmail,
+                role: 'admin'
+            };
+            await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
 
-        localStorage.setItem('lantiai_org', JSON.stringify(newOrg));
-        localStorage.setItem('lantiai_user', JSON.stringify(newAdmin));
-
-        // Register Organization in Org DB for later login lookup
-        const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-        currentOrgs.push(newOrg);
-        localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs));
-
-        // Init DB with the first user
-        const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        currentUsers.push(newAdmin);
-        localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-        setIsLoading(false);
+            // Local state will update via onAuthStateChanged listener
+        } catch (error: any) {
+            console.error("Failed to create organization:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const signupSolo = async (name: string, email: string, password: string) => {
         setIsLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const firebaseUser = userCredential.user;
 
-        const newOrg: Organization = {
-            id: `solo-${Math.random().toString(36).substr(2, 9)}`,
-            name: `${name}'s Studio`,
-            plan: 'pro'
-        };
+            await updateProfile(firebaseUser, { displayName: name });
 
-        const soloTeacher: User = {
-            id: Math.random().toString(36).substr(2, 9),
-            organizationId: newOrg.id,
-            name: name,
-            email: email,
-            password: password,
-            role: 'teacher'
-        };
+            const orgRef = doc(collection(db, 'organizations'));
+            const newOrg: Omit<Organization, 'id'> = {
+                name: `${name}'s Studio`,
+                plan: 'pro'
+            };
+            await setDoc(orgRef, newOrg);
 
-        setOrganization(newOrg);
-        setUser(soloTeacher);
+            const soloTeacher: User = {
+                id: firebaseUser.uid,
+                organizationId: orgRef.id,
+                name: name,
+                email: email,
+                role: 'teacher'
+            };
+            await setDoc(doc(db, 'users', firebaseUser.uid), soloTeacher);
 
-        localStorage.setItem('lantiai_org', JSON.stringify(newOrg));
-        localStorage.setItem('lantiai_user', JSON.stringify(soloTeacher));
-
-        // Registry for future logins - Both Org and User
-        const currentOrgs = JSON.parse(localStorage.getItem('lantiai_db_orgs') || '[]');
-        currentOrgs.push(newOrg);
-        localStorage.setItem('lantiai_db_orgs', JSON.stringify(currentOrgs));
-
-        const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        currentUsers.push(soloTeacher);
-        localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-        setIsLoading(false);
-    };
-
-    const createUser = async (newUser: Omit<User, 'id'>) => {
-        const currentOrg = JSON.parse(localStorage.getItem('lantiai_org') || '{}');
-        // Assume verified admin
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        // Enforce organizationId from session
-        const userToCreate = { ...newUser, organizationId: currentOrg.id };
-
-        // Auto-generate email/username for students if missing
-        let finalUser: User = { ...userToCreate, id: '' }; // Add id temporarily to satisfy User type
-        if (newUser.role === 'student' && !newUser.email) {
-            const cleanName = newUser.name.toLowerCase().replace(/\s/g, '.');
-            const randomSuffix = Math.floor(Math.random() * 1000);
-            finalUser.email = `${cleanName}${randomSuffix}@student.lantiai.edu`; // Mock internal email
-            finalUser.username = `${cleanName}${randomSuffix}`;
+        } catch (error: any) {
+            console.error("Solo signup failed:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
         }
-
-        const user: User = {
-            ...finalUser,
-            id: Math.random().toString(36).substr(2, 9),
-        };
-
-        const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        currentUsers.push(user);
-        localStorage.setItem('lantiai_db_users', JSON.stringify(currentUsers));
-
-        return user;
     };
 
-    const getOrganizationUsers = (role?: UserRole): User[] => {
-        const currentOrg = JSON.parse(localStorage.getItem('lantiai_org') || '{}');
-        const currentUsers = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
+    const createUser = async (newUser: Omit<User, 'id'>): Promise<User | null> => {
+        if (!organization) throw new Error("Must be logged in to an organization");
 
-        const orgUsers = currentUsers.filter((u: User) => u.organizationId === currentOrg.id);
+        try {
+            // WARNING: In a real app, creating a user while logged in will sign out the current admin!
+            // This should ideally be handled via a Firebase Admin SDK backend Cloud Function.
+            // For now, we will mock the Auth portion and just create the Firestore document if 
+            // no Firebase Admin backend is hooked up for this specifically on the client.
+            // A true implementation requires calling an API route we will build shortly.
 
-        if (role) {
-            return orgUsers.filter((u: User) => u.role === role);
+            console.warn("Client-side createUser is restricted. Use the Admin API route for production.");
+
+            const newDocRef = doc(collection(db, 'users'));
+            const userObj: User = {
+                ...newUser,
+                id: newDocRef.id, // Using Firestore ID as a mock UID if auth bypass is used
+                organizationId: organization.id
+            };
+
+            await setDoc(newDocRef, userObj);
+            return userObj;
+
+        } catch (error) {
+            console.error("Create user failed:", error);
+            return null;
         }
-        return orgUsers;
     };
 
-    const updateUser = (userId: string, updates: Partial<User>) => {
-        const currentUsers: User[] = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        const updated = currentUsers.map(u => u.id === userId ? { ...u, ...updates } : u);
-        localStorage.setItem('lantiai_db_users', JSON.stringify(updated));
+    const getOrganizationUsers = async (role?: UserRole): Promise<User[]> => {
+        if (!organization) return [];
+
+        try {
+            let q = query(collection(db, 'users'), where("organizationId", "==", organization.id));
+            if (role) {
+                q = query(q, where("role", "==", role));
+            }
+
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => doc.data() as User);
+        } catch (error) {
+            console.error("Failed to fetch organization users:", error);
+            return [];
+        }
     };
 
-    const deleteUser = (userId: string) => {
-        const currentUsers: User[] = JSON.parse(localStorage.getItem('lantiai_db_users') || '[]');
-        const filtered = currentUsers.filter(u => u.id !== userId);
-        localStorage.setItem('lantiai_db_users', JSON.stringify(filtered));
+    const updateUser = async (userId: string, updates: Partial<User>) => {
+        try {
+            const userRef = doc(db, 'users', userId);
+            await updateDoc(userRef, updates);
+        } catch (error) {
+            console.error("Failed to update user:", error);
+        }
+    };
+
+    const deleteUser = async (userId: string) => {
+        try {
+            // Again, deleting from Auth requires Admin SDK API route. Delete from Firestore only here.
+            await deleteDoc(doc(db, 'users', userId));
+        } catch (error) {
+            console.error("Failed to delete user:", error);
+        }
     };
 
     return (

@@ -8,6 +8,7 @@ import { useLessons, type Lesson } from '@/lib/lessons/context';
 import type { PedagogicalMode } from '@/lib/pedagogy/engine';
 import { useLiveSession } from '@/lib/live/context';
 import Blackboard from './Blackboard/Blackboard';
+import { generateLessonPlan } from '@/lib/gemini/client';
 
 interface LessonPlan {
     id: string;
@@ -80,24 +81,34 @@ export default function TeacherPanel() {
     const handleGenerateLesson = async () => {
         if (!newLesson.title || !newLesson.subject) return;
         setIsGenerating(true);
-        // Simulate AI generation
-        await new Promise(r => setTimeout(r, 1500));
+        try {
+            const plan = await generateLessonPlan(
+                newLesson.title,
+                pedagogyContext.gradeLevel,
+                pedagogyContext.mode,
+                newLesson.duration
+            );
 
-        await createLesson({
-            title: newLesson.title,
-            subject: newLesson.subject,
-            gradeLevel: pedagogyContext.gradeLevel,
-            pedagogicalMode: pedagogyContext.mode,
-            objectives: newLesson.objectives.split('\n').filter(o => o.trim()),
-            activities: ['Activity 1', 'Activity 2'],
-            avAids: ['Visual Aid', 'Audio Reinforcement'],
-            safetyNotes: 'Standard safety shields active.',
-            duration: newLesson.duration
-        });
+            await createLesson({
+                title: plan.title || newLesson.title,
+                subject: newLesson.subject || plan.subject || 'General',
+                gradeLevel: pedagogyContext.gradeLevel,
+                pedagogicalMode: pedagogyContext.mode,
+                objectives: plan.objectives || [],
+                activities: plan.activities || [],
+                avAids: plan.avAids || [],
+                safetyNotes: plan.safetyNotes || 'No specific safety notes provided.',
+                duration: newLesson.duration
+            });
 
-        setIsGenerating(false);
-        setActiveTab('lessons');
-        setNewLesson({ title: '', subject: '', objectives: '', duration: 45 });
+            setNewLesson({ title: '', subject: '', objectives: '', duration: 45 });
+            setActiveTab('lessons');
+        } catch (error) {
+            console.error("Failed to generate lesson:", error);
+            alert("Sorry, an error occurred while generating the lesson plan. Please check your API key and try again.");
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const modeOptions: { id: PedagogicalMode; label: string; icon: string; description: string }[] = [

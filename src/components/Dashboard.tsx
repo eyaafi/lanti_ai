@@ -18,10 +18,11 @@ import DiscussionBoard from '@/components/DiscussionBoard/DiscussionBoard';
 import NotificationsFeed from '@/components/NotificationsFeed/NotificationsFeed';
 import SelfPacedLesson from '@/components/SelfPacedLesson/SelfPacedLesson';
 import SoloTeacherStudio from '@/components/SoloTeacherStudio/SoloTeacherStudio';
+import DiscordCommunity from '@/components/DiscordCommunity/DiscordCommunity';
 import { useNotifications } from '@/lib/notifications/context';
 import ThemeToggle from './ThemeToggle/ThemeToggle';
 
-type ActiveView = 'student_home' | 'inquiry' | 'lessons' | 'teacher' | 'sandbox' | 'admin' | 'timetable' | 'recordings' | 'discussions' | 'self_paced' | 'solo_studio';
+type ActiveView = 'student_home' | 'inquiry' | 'lessons' | 'teacher' | 'sandbox' | 'admin' | 'timetable' | 'recordings' | 'discussions' | 'community' | 'self_paced' | 'solo_studio';
 
 export default function Dashboard() {
     const { user, organization, logout } = useAuth();
@@ -40,6 +41,7 @@ export default function Dashboard() {
         { id: 'timetable', label: 'Timetable', icon: '📅', description: 'Live session schedule', allowedRoles: ['student', 'teacher', 'admin'] },
         { id: 'recordings', label: 'Recorded Lessons', icon: '📺', description: 'Watch past sessions', allowedRoles: ['student', 'teacher', 'admin'] },
         { id: 'discussions', label: 'Discussions', icon: '💬', description: 'Q&A board', allowedRoles: ['student', 'teacher', 'admin'] },
+        { id: 'community', label: 'Community', icon: '🎮', description: 'Discord Server via Widget', allowedRoles: ['student', 'teacher', 'admin'] },
         ...(!isSoloTeacher ? [
             { id: 'admin' as ActiveView, label: 'School Management', icon: '🛡️', description: 'Manage cohorts', allowedRoles: ['admin', 'teacher'] },
         ] : []),
@@ -269,6 +271,7 @@ export default function Dashboard() {
                 {activeView === 'timetable' && <Timetable onNavigate={(viewId) => setActiveView(viewId as any)} />}
                 {activeView === 'recordings' && <RecordedLessons />}
                 {activeView === 'discussions' && <DiscussionBoard />}
+                {activeView === 'community' && <DiscordCommunity />}
                 {activeView === 'admin' && <AdminDashboard />}
                 {activeView === 'solo_studio' && <SoloTeacherStudio />}
             </main>

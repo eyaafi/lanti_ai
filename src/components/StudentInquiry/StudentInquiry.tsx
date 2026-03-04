@@ -87,6 +87,7 @@ export default function StudentInquiry() {
                     query: userQuery,
                     systemPrompt: pedagogicalResponse.systemPrompt,
                     guidelines: pedagogicalResponse.responseGuidelines,
+                    gradeLevel: pedagogyContext.gradeLevel,
                 }),
             });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth, User, UserRole } from '@/lib/auth/context';
 import styles from './AdminDashboard.module.css';
 
@@ -45,9 +45,24 @@ export default function AdminDashboard() {
         setIsCreating(true);
     };
 
-    const teachers = getOrganizationUsers('teacher');
-    const students = getOrganizationUsers('student');
-    const parents = getOrganizationUsers('parent');
+    const [teachers, setTeachers] = useState<User[]>([]);
+    const [students, setStudents] = useState<User[]>([]);
+    const [parents, setParents] = useState<User[]>([]);
+
+    useEffect(() => {
+        if (!user || !organization) return;
+
+        const fetchUsers = async () => {
+            const allTeachers = await getOrganizationUsers('teacher');
+            const allStudents = await getOrganizationUsers('student');
+            const allParents = await getOrganizationUsers('parent');
+
+            setTeachers(allTeachers);
+            setStudents(allStudents);
+            setParents(allParents);
+        };
+        fetchUsers();
+    }, [user, organization]);
 
     const handleCreateUser = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -62,7 +77,6 @@ export default function AdminDashboard() {
             }
             if (editingUser.role === 'student') {
                 updates.gradeLevel = newUserGradeLevel;
-                // Handle parent linking on edit
                 if (newParentName && newParentEmail) {
                     const existingParent = parents.find(p => p.email === newParentEmail);
                     if (existingParent) {
@@ -74,7 +88,9 @@ export default function AdminDashboard() {
                             email: newParentEmail,
                             role: 'parent'
                         });
-                        updates.parentId = parent.id;
+                        if (parent) {
+                            updates.parentId = parent.id;
+                        }
                     }
                 }
             }
@@ -86,7 +102,6 @@ export default function AdminDashboard() {
         // CREATE mode
         let parentId: string | undefined = undefined;
 
-        // If recording a student with parent info, find existing or create new parent
         if (newUserType === 'student' && newParentName && newParentEmail) {
             const existingParent = parents.find(p => p.email === newParentEmail);
             if (existingParent) {
@@ -98,7 +113,9 @@ export default function AdminDashboard() {
                     email: newParentEmail,
                     role: 'parent'
                 });
-                parentId = parent.id;
+                if (parent) {
+                    parentId = parent.id;
+                }
             }
         }
 
